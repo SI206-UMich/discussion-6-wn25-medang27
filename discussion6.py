@@ -1,4 +1,3 @@
-#lecture work
 import unittest
 import os
 import csv
@@ -17,16 +16,20 @@ def load_csv(f):
     full_path = os.path.join(base_path, f)
     
     data = {}
-    
+
     with open(full_path, newline='') as csvfile:
         reader = csv.reader(csvfile)
-        header = next(reader)  # Skip header
-        
+        header = next(reader)  # Read the header row (Month,2020,2021,2022)
+
+        # Initialize data structure for each year
+        for year in header[1:]:  
+            data[year] = {}
+
+        # Process the data rows
         for row in reader:
-            year, month, value = row
-            if year not in data:
-                data[year] = {}
-            data[year][month] = value  # Keep values as strings, per instructions
+            month = row[0]  # First column is the month
+            for i, year in enumerate(header[1:]):  # Iterate over years (2020, 2021, 2022)
+                data[year][month] = row[i + 1]  # Store as a string, per instructions
     
     return data
 
@@ -62,11 +65,10 @@ def get_month_avg(d):
         avg_dict[year] = round(sum(values) / len(values))  # Compute average and round
     
     return avg_dict
-    
 
 class dis7_test(unittest.TestCase):
     '''
-    you should not change these test cases!
+    You should not change these test cases!
     '''
     def setUp(self):
         self.flight_dict = load_csv('daily_visitors.csv')
