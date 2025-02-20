@@ -1,6 +1,6 @@
 import unittest
 import os
-
+import csv
 
 def load_csv(f):
     '''
@@ -11,13 +11,23 @@ def load_csv(f):
         nested dict structure from csv
         outer keys are (str) years, values are dicts
         inner keys are (str) months, values are (str) integers
-    
-    Note: Don't strip or otherwise modify strings. Don't change datatypes from strings. 
     '''
-
     base_path = os.path.abspath(os.path.dirname(__file__))
     full_path = os.path.join(base_path, f)
-    # use this 'full_path' variable as the file that you open
+    
+    data = {}
+    
+    with open(full_path, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        header = next(reader)  # Skip header
+        
+        for row in reader:
+            year, month, value = row
+            if year not in data:
+                data[year] = {}
+            data[year][month] = value  # Keep values as strings, per instructions
+    
+    return data
 
 def get_annual_max(d):
     '''
