@@ -52,12 +52,15 @@ def get_month_avg(d):
         d, dict created by load_csv above
 
     Returns:
-        dict where keys are years and vals are floats rounded to nearest whole num or int
-        vals are the average vals for months in the year
-
-    Note: Don't strip or otherwise modify strings. Do not change datatypes except where necessary. 
-        You'll have to make the vals int or float here and round the avg to pass tests.
+        dict where keys are years and values are rounded averages.
     '''
+    avg_dict = {}
+    
+    for year, months in d.items():
+        values = [int(v) for v in months.values()]  # Convert all values to int
+        avg_dict[year] = round(sum(values) / len(values))  # Compute average and round
+    
+    return avg_dict
     
 
 class dis7_test(unittest.TestCase):
