@@ -36,12 +36,15 @@ def get_annual_max(d):
 
     Returns:
         list of tuples, each with 3 items: year (str), month (str), and max (int) 
-        max is the maximum value for a month in that year, month is the corresponding month
-
-    Note: Don't strip or otherwise modify strings. Do not change datatypes except where necessary.
-        You'll have to change vals to int to compare them. 
     '''
+    result = []
     
+    for year, months in d.items():
+        max_month = max(months, key=lambda m: int(months[m]))  # Find month with max value
+        max_value = int(months[max_month])  # Convert to int
+        result.append((year, max_month, max_value))
+    
+    return result
 
 def get_month_avg(d):
     '''
